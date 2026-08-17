@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harmonic | Premium Music Catalog</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Boxicons CDN -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- App Container -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation (Desktop) / Bottom Nav (Mobile) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="bx bxl-pocket-watch brand-icon"></i>
+        <span class="brand-name">Harmonic</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active" data-target="explore-view">
+          <i class="bx bx-compass"></i>
+          <span>Explore</span>
+        </a>
+        <a href="#" class="nav-item" data-target="favorites-view">
+          <i class="bx bx-heart"></i>
+          <span>My Library</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>&copy; 2026 Harmonic</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="search-wrapper">
+          <i class="bx bx-search search-icon"></i>
+          <input type="text" id="search-input" placeholder="Search songs, artists, albums...">
+          <button id="search-clear-btn" class="clear-btn hidden"><i class="bx bx-x"></i></button>
+        </div>
+        <div class="header-actions">
+          <div class="filter-dropdown-wrapper">
+            <button id="filter-toggle-btn" class="icon-btn-text">
+              <i class="bx bx-slider-alt"></i>
+              <span>Filters</span>
+            </button>
+            <div id="filter-dropdown" class="filter-dropdown hidden">
+              <div class="filter-group">
+                <label for="limit-select">Results Limit</label>
+                <select id="limit-select">
+                  <option value="20">20 tracks</option>
+                  <option value="40" selected>40 tracks</option>
+                  <option value="60">60 tracks</option>
+                  <option value="100">100 tracks</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="explicit-select">Content Filter</label>
+                <select id="explicit-select">
+                  <option value="Yes" selected>Allow Explicit</option>
+                  <option value="No">Clean Only</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="theme-toggle">
+            <button id="theme-btn" class="icon-btn" title="Toggle Theme">
+              <i class="bx bx-moon"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- View: Explore -->
+      <section id="explore-view" class="view-section">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-content">
+            <span class="hero-tagline">Trending Beats</span>
+            <h1 class="hero-title">Discover Your Next Obsession</h1>
+            <p class="hero-description">Explore millions of high-quality track previews, discover new album collections, and organize your favorite soundscapes in one elegant interface.</p>
+          </div>
+          <div class="hero-visual">
+            <div class="vinyl-record">
+              <div class="vinyl-label"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Tags -->
+        <div class="quick-tags-container">
+          <span class="quick-tags-title">Quick Search:</span>
+          <div class="quick-tags">
+            <button class="tag-btn" data-query="Daft Punk">Daft Punk</button>
+            <button class="tag-btn" data-query="Lofi Hip Hop">Lofi Beats</button>
+            <button class="tag-btn" data-query="Synthwave">Synthwave</button>
+            <button class="tag-btn" data-query="The Weeknd">The Weeknd</button>
+            <button class="tag-btn" data-query="Hans Zimmer">Cinematic</button>
+            <button class="tag-btn" data-query="Billie Eilish">Billie Eilish</button>
+          </div>
+        </div>
+
+        <!-- Catalog Container -->
+        <div class="catalog-section">
+          <div class="section-header">
+            <h2 id="catalog-title" class="section-title">Popular Tracks</h2>
+            <div id="results-count" class="results-count"></div>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loading-spinner" class="loading-container hidden">
+            <div class="spinner"></div>
+            <p>Scanning the airwaves...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="error-message" class="error-container hidden">
+            <i class="bx bx-error-circle error-icon"></i>
+            <p id="error-text">Failed to load tracks. Please try again.</p>
+            <button id="retry-btn" class="retry-btn">Retry</button>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-container hidden">
+            <i class="bx bx-music empty-icon"></i>
+            <p>No tracks found. Try searching for something else!</p>
+          </div>
+
+          <!-- Music Grid -->
+          <div id="music-grid" class="music-grid">
+            <!-- Dynamic music cards go here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Favorites -->
+      <section id="favorites-view" class="view-section hidden">
+        <div class="favorites-header-banner">
+          <h1 class="fav-title"><i class="bx bxs-heart font-gradient"></i> My Library</h1>
+          <p>Your handpicked tracks, saved offline via your browser.</p>
+        </div>
+
+        <div class="catalog-section">
+          <!-- Empty Favorites State -->
+          <div id="fav-empty-state" class="empty-container">
+            <i class="bx bx-heart-circle empty-icon"></i>
+            <p>Your library is empty. Click the heart icon on any song card to save it here!</p>
+            <button id="explore-jump-btn" class="accent-btn">Start Exploring</button>
+          </div>
+
+          <!-- Favorites Grid -->
+          <div id="favorites-grid" class="music-grid">
+            <!-- Dynamic favorite cards go here -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Global Floating Audio Player Bar -->
+    <div id="player-bar" class="player-bar collapsed">
+      <div class="player-inner">
+        <!-- Track Info -->
+        <div class="player-track-info">
+          <div class="player-art-wrapper">
+            <img id="player-art" src="" alt="Album Art">
+            <div class="mini-equalizer hidden">
+              <span class="eq-bar bar-1"></span>
+              <span class="eq-bar bar-2"></span>
+              <span class="eq-bar bar-3"></span>
+              <span class="eq-bar bar-4"></span>
+            </div>
+          </div>
+          <div class="player-metadata">
+            <div id="player-title" class="player-song-title">No Track Selected</div>
+            <div id="player-artist" class="player-artist-name">Select a song to play preview</div>
+          </div>
+          <button id="player-fav-btn" class="player-icon-btn favorited" title="Add to Library">
+            <i class="bx bx-heart"></i>
+          </button>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="player-controls-wrapper">
+          <div class="player-buttons">
+            <button id="player-prev" class="player-btn-secondary" title="Previous Track"><i class="bx bx-skip-previous"></i></button>
+            <button id="player-play" class="player-btn-primary" title="Play"><i class="bx bx-play"></i></button>
+            <button id="player-next" class="player-btn-secondary" title="Next Track"><i class="bx bx-skip-next"></i></button>
+            <button id="player-loop" class="player-btn-secondary" title="Loop Track"><i class="bx bx-repeat"></i></button>
+          </div>
+          
+          <div class="player-timeline">
+            <span id="time-current" class="time-label">0:00</span>
+            <div id="timeline-progress-bg" class="timeline-bar">
+              <div id="timeline-progress" class="timeline-fill"></div>
+              <div id="timeline-handle" class="timeline-handle"></div>
+            </div>
+            <span id="time-total" class="time-label">0:00</span>
+          </div>
+        </div>
+
+        <!-- Volume & Actions -->
+        <div class="player-actions">
+          <div class="volume-control">
+            <button id="player-mute" class="player-icon-btn" title="Mute/Unmute"><i class="bx bx-volume-full"></i></button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7" class="volume-slider">
+          </div>
+          <button id="player-info" class="player-icon-btn" title="View Track Details"><i class="bx bx-info-circle"></i></button>
+          <button id="player-close" class="player-icon-btn" title="Close Player"><i class="bx bx-chevron-down"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="details-modal" class="modal-backdrop hidden">
+      <div class="modal-card glass">
+        <button id="modal-close" class="modal-close-btn"><i class="bx bx-x"></i></button>
+        
+        <div class="modal-body">
+          <div class="modal-left">
+            <div class="modal-artwork-container">
+              <img id="modal-artwork" src="" alt="Album Artwork">
+              <div class="modal-artwork-gradient"></div>
+              <button id="modal-play-btn" class="modal-play-overlay"><i class="bx bx-play"></i></button>
+            </div>
+          </div>
+          
+          <div class="modal-right">
+            <div class="modal-tag-group">
+              <span id="modal-genre" class="modal-genre-tag">Genre</span>
+              <span id="modal-explicit" class="modal-explicit-tag hidden">Explicit</span>
+            </div>
+            <h2 id="modal-title" class="modal-title">Track Name</h2>
+            <h3 id="modal-artist" class="modal-artist">Artist Name</h3>
+            
+            <div class="modal-details-grid">
+              <div class="detail-item">
+                <span class="detail-label">Album</span>
+                <span id="modal-album" class="detail-val">Album Title</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Release Date</span>
+                <span id="modal-date" class="detail-val">Date</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Duration</span>
+                <span id="modal-duration" class="detail-val">0:00</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Price</span>
+                <span id="modal-price" class="detail-val">$0.99</span>
+              </div>
+            </div>
+
+            <div class="modal-actions-container">
+              <button id="modal-action-play" class="primary-btn">
+                <i class="bx bx-play-circle"></i> Play Preview
+              </button>
+              <button id="modal-action-fav" class="secondary-btn">
+                <i class="bx bx-heart"></i> Add to Favorites
+              </button>
+              <a id="modal-action-store" href="#" target="_blank" class="store-link-btn">
+                <i class="bx bxl-apple"></i> Open in Apple Music
+              </a>
+            </div>
+
+            <!-- More Tracks from this Album Section -->
+            <div class="album-tracks-section">
+              <h4 class="album-tracks-title">More from this Album</h4>
+              <div id="modal-loading-tracks" class="mini-loader hidden">
+                <div class="spinner-mini"></div>
+              </div>
+              <ul id="modal-album-tracks-list" class="album-tracks-list">
+                <!-- Loaded tracks go here -->
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="native-audio" preload="auto"></audio>
+
+  <!-- Script JS Link -->
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
