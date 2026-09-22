@@ -14,11 +14,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-- name: Configure AWS credentials
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::533267195508:role/GitHubActions-Harmonic-OIDC
           aws-region: eu-west-2
 
-- name: Verify AWS identity
+      - name: Verify AWS identity
         run: aws sts get-caller-identity
